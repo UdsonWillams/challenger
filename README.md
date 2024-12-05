@@ -1,1 +1,3 @@
 # challenger
+
+Necessario criar .env
