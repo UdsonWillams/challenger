@@ -28,6 +28,7 @@ DEBUG = bool(os.getenv("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -100,7 +101,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Careers API",
     "LICENSE": {"name": "MIT License"},
-    "DESCRIPTION": "Careers api from CodeLeap Challenger",
+    "DESCRIPTION": "Careers api Challenger",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
@@ -131,6 +132,7 @@ TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
 USE_TZ = True
 USE_THOUSAND_SEPARATOR = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
