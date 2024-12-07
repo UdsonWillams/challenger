@@ -11,11 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
-# Load environment variables from .env file
-load_dotenv()
-
 from pathlib import Path
+
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = "django-insecure-pmb)cng+^*%%fyb4puxn@w^%8vf(#=jfrg4xr!@t*21f5=$*=7"
+SECRET_KEY = get_random_secret_key()
+DEBUG = bool(os.getenv("DEBUG", default=0))
 
-DEBUG = bool(os.environ.get("DEBUG", default=0))
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
 
 # Application definition
 
@@ -77,28 +76,34 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.environ.get("SQL_DATABASE", "careers"),
-        "USER": os.environ.get("SQL_USER", "myuser"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "mypassword"),
-        "HOST": os.environ.get("SQL_HOST", "127.0.0.1"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+ENABLE_DEV_DATABASE = bool(os.getenv("DB_DEBUG", 0))
+DATABASES = {}
+if ENABLE_DEV_DATABASE:
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-}
-
+else:
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASS"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": int(os.environ["DB_PORT"]),
+    }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100,
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Careers API',
-    'DESCRIPTION': 'Careers api from CodeLeap Challenger',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Careers API",
+    "LICENSE": {"name": "MIT License"},
+    "DESCRIPTION": "Careers api Challenger",
+    "VERSION": "1.0.0",
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
 
 # Password validation
@@ -121,15 +126,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+LANGUAGE_CODE = "pt-br"
+TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
-
 USE_TZ = True
+USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
