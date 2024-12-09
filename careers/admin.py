@@ -7,4 +7,4 @@ from careers.models import Careers
 class CareersAdmin(admin.ModelAdmin): ...
 
 
-admin.site.register(Careers)  # Register your models here.
+admin.site.register(Careers)
