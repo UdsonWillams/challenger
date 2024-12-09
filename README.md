@@ -5,8 +5,7 @@ Esta é uma API para gerenciar carreiras, construída com Python 3.12, Django 5.
 ## Requisitos
 
 - Python 3.12
-- Docker
-- Docker Compose
+- Docker  & Docker Compose
 
 ## Configuração
 
@@ -62,7 +61,3 @@ Esta aplicação utiliza as seguintes ferramentas de desenvolvimento:
 - pre-commit para hooks de commit
 - Ruff para linting e formatação de código
 - ipdb para debugging
-
-### Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
